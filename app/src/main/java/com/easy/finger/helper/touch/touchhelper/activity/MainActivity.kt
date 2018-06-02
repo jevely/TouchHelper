@@ -1,7 +1,8 @@
-package com.easy.finger.helper.touch.touchhelper
+package com.easy.finger.helper.touch.touchhelper.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.easy.finger.helper.touch.touchhelper.R
 
 class MainActivity : AppCompatActivity() {
 
