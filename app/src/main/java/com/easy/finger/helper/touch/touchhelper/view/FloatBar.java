@@ -13,8 +13,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.easy.finger.helper.touch.touchhelper.R;
+import com.easy.finger.helper.touch.touchhelper.tool.FunctionTool;
+import com.easy.finger.helper.touch.touchhelper.util.UtilsKt;
 
 import static com.easy.finger.helper.touch.touchhelper.util.UtilsKt.getScreen;
 
@@ -59,7 +62,7 @@ public class FloatBar extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setDither(true);
-        paint.setColor(Color.BLUE);
+        paint.setColor(getResources().getColor(R.color.touch_back));
         paint.setStrokeWidth(8);
 //        paint.setStyle(Paint.Style.STROKE);
 
@@ -72,8 +75,13 @@ public class FloatBar extends View {
 
         showBack = false;
 
-        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.back);
+        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.back_back);
 
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(40, getScreen(getContext()).y);
     }
 
     @Override
@@ -84,7 +92,7 @@ public class FloatBar extends View {
         path.quadTo(moveX, moveY, endX, endY);
         canvas.drawPath(path, paint);
 
-        canvas.drawLine(moveX, moveY, moveX + 2, moveY + 2, paint2);
+//        canvas.drawLine(moveX, moveY, moveX + 2, moveY + 2, paint2);
 
         if (showBack) {
             //画back
@@ -96,7 +104,7 @@ public class FloatBar extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-
+                setViewSize(getScreen(getContext()).x);
                 break;
             case MotionEvent.ACTION_MOVE:
                 moveX = event.getX() / 4.0f;
@@ -127,11 +135,19 @@ public class FloatBar extends View {
             case MotionEvent.ACTION_UP:
                 if (moveX > (screen.x / 20)) {
                     Log.d("LJW", "触发返回");
+                    FunctionTool.INSTANCE.funcationBack();
                 }
                 reset();
+                setViewSize(40);
                 break;
         }
         return true;
+    }
+
+    private void setViewSize(int viewX) {
+        ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        layoutParams.width = viewX;
+        setLayoutParams(layoutParams);
     }
 
     public void reset() {

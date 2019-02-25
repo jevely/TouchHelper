@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TouchHelper</string>
+    <string name="acc_service_name">TouchHelper Accessibity</string>
+    <string name="accessibility_service_description">TouchHelper Accessibity</string>
 </resources>
